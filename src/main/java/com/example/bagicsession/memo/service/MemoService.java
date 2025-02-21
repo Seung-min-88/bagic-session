@@ -19,6 +19,7 @@ public class MemoService {
     private final MemoRepository memoRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public MemoSaveResponse save(Long memberId, MemoSaveRequest dto) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 아이디의 멤버는 존재하지 않습니다"));
         Memo memo = new Memo(dto.getContent(), member);
@@ -31,6 +32,7 @@ public class MemoService {
         );
     }
 
+    @Transactional(readOnly = true)
     public List<MemoResponse> findAll() {
         List<Memo> memos = memoRepository.findAll();
 
